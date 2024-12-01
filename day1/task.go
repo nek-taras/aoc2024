@@ -70,6 +70,26 @@ func main() {
 
 	}
 	fmt.Printf("Distance sum is:%d\n", distance)
+	r_length := len(right)
+	l_min := 0
+	similarity := 0
+	for i := range left {
+		l := left[i]
+		ocurrences := 0
+		for j := l_min; i < r_length; j++ {
+			r := right[j]
+			if r < l {
+				l_min = j
+			} else if r == l {
+				ocurrences += 1
+			} else {
+				break
+			}
+		}
+		similarity += l * ocurrences
+	}
+
+	fmt.Printf("Similarity is:%d\n", similarity)
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
