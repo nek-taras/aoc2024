@@ -54,20 +54,12 @@ func checkSolution(cur_coordinte Coordinate, reward Coordinate) Result {
 func playGame(game Game, is_limited bool, reward_add int) (bool, int) {
 	game.reward.x += reward_add
 	game.reward.y += reward_add
-	b_f := (game.reward.y*game.buttonA.x - game.reward.x*game.buttonA.y) / (game.buttonB.y*game.buttonA.x - game.buttonB.x*game.buttonA.y)
-	a_f := (game.reward.y*game.buttonB.x - game.reward.x*game.buttonB.y) / (game.buttonA.y*game.buttonB.x - game.buttonA.x*game.buttonB.y)
-	b := int(b_f)
+	b := (game.reward.y*game.buttonA.x - game.reward.x*game.buttonA.y) / (game.buttonB.y*game.buttonA.x - game.buttonB.x*game.buttonA.y)
 	a := (game.reward.x - b*game.buttonB.x) / game.buttonA.x
 	if is_limited && (a > 100 || b > 100) {
 		return false, 0
 	}
 	res := move(Coordinate{x: 0, y: 0}, game, a, b)
-	if checkSolution(res, game.reward) == Equal {
-		return true, getPrice(a, b)
-	}
-	a = int(a_f)
-	b = (game.reward.x - a*game.buttonA.x) / game.buttonB.x
-	res = move(Coordinate{x: 0, y: 0}, game, a, b)
 	if checkSolution(res, game.reward) == Equal {
 		return true, getPrice(a, b)
 	}
